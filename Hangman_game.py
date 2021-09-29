@@ -25,17 +25,27 @@ def run():
     empty_word = ['_' for j in range(l)]
     word_str = " ".join(empty_word)
 
+    attempt = l*3
     key = True
 
     while key:
 
-        print('¡Adivina la palabra!')
+        print('¡Adivina la palabra!\n')
+
+        if attempt == 0:
+            print('Game Over. Intentalo de nuevo!') 
+            break
+
+        print(f'Tienes {attempt} intentos')
+
         print(word_str)
         letter = vocal_problem(input('\nIngrese una letra: ').upper())
 
         try:
             if len(letter) != 1 or letter.isnumeric():
+                attempt -= 1
                 raise ValueError('Solo ingrese una letra, y de tipo no númerico')
+                
 
             if wmark_list.count(letter) != 0:
                 i = wmark_list.count(letter)
@@ -45,6 +55,8 @@ def run():
                     empty_word[index_letter] = word[index_letter]
                     word_str = " ".join(empty_word)
                     i-=1
+            else:
+                attempt-=1
 
             if empty_word.count('_') == 0:
                 key = False
@@ -56,7 +68,8 @@ def run():
 
         os.system("cls")
     
-    print(f'¡Ganaste! La palabra era {random_word}')
+    if attempt !=0:
+        print(f'¡Ganaste! La palabra era {random_word}')
 
 if __name__=='__main__':
     run()
